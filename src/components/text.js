@@ -8,15 +8,24 @@ import vertex from "../shaders/text-vertex.glsl";
 import fragment from "../shaders/text-fragment.glsl";
 
 export default class Text {
-  constructor({ element, scene, sizes, index, circleSpeed, length }) {
+  constructor({
+    element,
+    scene,
+    sizes,
+    index,
+    circleSpeed,
+    length,
+    amplitude,
+  }) {
     this.element = element;
     this.scene = scene;
     this.sizes = sizes;
     this.index = index;
     this.length = length;
     this.circleSpeed = circleSpeed;
+    this.amplitude = amplitude;
 
-    this.scale = 0.01;
+    this.scale = 0.008;
     this.numberOfText = this.length;
     this.angleCalc = ((this.numberOfText / 10) * Math.PI) / this.numberOfText;
 
@@ -43,6 +52,8 @@ export default class Text {
         uniforms: {
           // custom
           uColorBlack: { value: new THREE.Vector3(0.133, 0.133, 0.133) },
+          uSpeed: { value: 0.0 },
+          uAmplitude: { value: this.amplitude },
           // Common
           ...uniforms.common,
           // Rendering
@@ -106,9 +117,11 @@ export default class Text {
     });
   }
 
-  update(scroll, circleSpeed, speed) {
+  update(scroll, circleSpeed, speed, amplitude) {
     this.circleSpeed = circleSpeed;
     if (this.mesh) {
+      this.mesh.material.uniforms.uSpeed.value = speed;
+      this.mesh.material.uniforms.uAmplitude.value = amplitude;
       this.updateY(scroll.y * this.circleSpeed);
       this.updateX(scroll.y * this.circleSpeed);
       this.updateZ(scroll.y * this.circleSpeed);

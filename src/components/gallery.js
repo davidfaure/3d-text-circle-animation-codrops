@@ -15,6 +15,7 @@ export default class Gallery {
     this.group = new THREE.Group();
 
     this.circleSpeed = 0.0007;
+    this.amplitude = 0.004;
 
     this.y = {
       current: 0,
@@ -42,6 +43,7 @@ export default class Gallery {
     this.show();
 
     this.gui.add(this, "circleSpeed").min(0).max(0.002).step(0.0001);
+    this.gui.add(this, "amplitude").min(0).max(0.01).step(0.001);
   }
 
   createGeometry() {
@@ -56,6 +58,7 @@ export default class Gallery {
         sizes: this.sizes,
         length: data.length,
         circleSpeed: this.circleSpeed,
+        amplitude: this.amplitude,
         index,
       });
     });
@@ -84,6 +87,8 @@ export default class Gallery {
   onResize({ sizes }) {
     this.sizes = sizes;
 
+    this.group.position.x = -this.sizes.width / 2;
+
     this.texts.forEach((text) => text.onResize(sizes));
   }
 
@@ -92,6 +97,20 @@ export default class Gallery {
 
     this.scroll.y = this.y.current;
 
-    this.texts.map((text) => text.update(this.scroll, this.circleSpeed));
+    this.speed.target = (this.y.target - this.y.current) * 0.001;
+    this.speed.current = lerp(
+      this.speed.current,
+      this.speed.target,
+      this.speed.lerp
+    );
+
+    this.texts.map((text) =>
+      text.update(
+        this.scroll,
+        this.circleSpeed,
+        this.speed.current,
+        this.amplitude
+      )
+    );
   }
 }
