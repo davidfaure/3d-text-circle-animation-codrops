@@ -8,16 +8,17 @@ import vertex from "../shaders/text-vertex.glsl";
 import fragment from "../shaders/text-fragment.glsl";
 
 export default class Text {
-  constructor({ element, scene, sizes, index, length }) {
+  constructor({ element, scene, sizes, index, circleSpeed, length }) {
     this.element = element;
     this.scene = scene;
     this.sizes = sizes;
     this.index = index;
     this.length = length;
+    this.circleSpeed = circleSpeed;
 
     this.scale = 0.01;
     this.numberOfText = this.length;
-    this.angle = ((this.numberOfText / 10) * Math.PI) / this.numberOfText;
+    this.angleCalc = ((this.numberOfText / 10) * Math.PI) / this.numberOfText;
 
     this.load();
   }
@@ -80,12 +81,18 @@ export default class Text {
     }
   }
 
-  updateZ() {}
+  updateZ(z = 0) {
+    this.mesh.rotation.z = (this.index / this.numberOfText) * 2 * Math.PI - z;
+  }
 
-  updateX() {}
+  updateX(x = 0) {
+    this.angleX = this.index * this.angleCalc - x;
+    this.mesh.position.x = Math.cos(this.angleX);
+  }
 
-  updateY() {
-    this.mesh.position.y += this.index * 0.5;
+  updateY(y = 0) {
+    this.angleY = this.index * this.angleCalc - y;
+    this.mesh.position.y = Math.sin(this.angleY);
   }
 
   updateScale() {
@@ -97,5 +104,14 @@ export default class Text {
     this.createBounds({
       sizes: this.sizes,
     });
+  }
+
+  update(scroll, circleSpeed, speed) {
+    this.circleSpeed = circleSpeed;
+    if (this.mesh) {
+      this.updateY(scroll.y * this.circleSpeed);
+      this.updateX(scroll.y * this.circleSpeed);
+      this.updateZ(scroll.y * this.circleSpeed);
+    }
   }
 }

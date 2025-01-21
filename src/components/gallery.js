@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 import { data } from "../utils/data";
+import { lerp } from "../utils/math";
 import Text from "./text";
 
 export default class Gallery {
@@ -12,6 +13,8 @@ export default class Gallery {
     this.gui = gui;
 
     this.group = new THREE.Group();
+
+    this.circleSpeed = 0.0007;
 
     this.y = {
       current: 0,
@@ -37,6 +40,8 @@ export default class Gallery {
     this.createGeometry();
     this.createText();
     this.show();
+
+    this.gui.add(this, "circleSpeed").min(0).max(0.002).step(0.0001);
   }
 
   createGeometry() {
@@ -50,6 +55,7 @@ export default class Gallery {
         scene: this.group,
         sizes: this.sizes,
         length: data.length,
+        circleSpeed: this.circleSpeed,
         index,
       });
     });
@@ -59,19 +65,19 @@ export default class Gallery {
     this.scene.add(this.group);
   }
 
-  onTouchDown({ x, y }) {
+  onTouchDown({ y }) {
     this.scrollCurrent.y = this.scroll.y;
   }
 
-  onTouchMove({ x, y }) {
+  onTouchMove({ y }) {
     const yDistance = y.start - y.end;
 
     this.y.target = this.scrollCurrent.y - yDistance;
   }
 
-  onTouchUp({ x, y }) {}
+  onTouchUp({ y }) {}
 
-  onWheel({ pixelX, pixelY }) {
+  onWheel({ pixelY }) {
     this.y.target -= pixelY;
   }
 
@@ -81,5 +87,11 @@ export default class Gallery {
     this.texts.forEach((text) => text.onResize(sizes));
   }
 
-  update() {}
+  update() {
+    this.y.current = lerp(this.y.current, this.y.target, this.y.lerp);
+
+    this.scroll.y = this.y.current;
+
+    this.texts.map((text) => text.update(this.scroll, this.circleSpeed));
+  }
 }

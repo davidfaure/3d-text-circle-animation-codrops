@@ -13,6 +13,7 @@ export default class Canvas {
       distance: 0,
       end: 0,
     };
+    this.createDebug();
 
     this.createClock();
 
@@ -20,7 +21,6 @@ export default class Canvas {
     this.createCamera();
     this.createRenderer();
     this.createGallery();
-    this.createDebug();
   }
 
   createDebug() {
@@ -69,12 +69,16 @@ export default class Canvas {
   onTouchDown(event) {
     this.isDown = true;
     this.y.start = event.touches ? event.touches[0].clientY : event.clientY;
+
+    if (this.gallery) this.gallery.onTouchDown({ y: this.y.start });
   }
 
   onTouchMove(event) {
     if (!this.isDown) return;
 
     this.y.end = event.touches ? event.touches[0].clientY : event.clientY;
+
+    if (this.gallery) this.gallery.onTouchMove({ y: this.y });
   }
 
   onTouchUp(event) {
@@ -83,9 +87,13 @@ export default class Canvas {
     this.y.end = event.changedTouches
       ? event.changedTouches[0].clientY
       : event.clientY;
+
+    if (this.gallery) this.gallery.onTouchUp({ y: this.y });
   }
 
-  onWheel(event) {}
+  onWheel(event) {
+    if (this.gallery) this.gallery.onWheel(event);
+  }
 
   onResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
