@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import GUI from "lil-gui";
+import Gallery from "./gallery";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class Canvas {
@@ -18,6 +19,7 @@ export default class Canvas {
     this.createScene();
     this.createCamera();
     this.createRenderer();
+    this.createGallery();
     this.createDebug();
   }
 
@@ -52,6 +54,16 @@ export default class Canvas {
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  createGallery() {
+    this.gallery = new Gallery({
+      renderer: this.renderer,
+      scene: this.scene,
+      camera: this.camera,
+      sizes: this.sizes,
+      gui: this.gui,
+    });
   }
 
   onTouchDown(event) {
@@ -90,9 +102,16 @@ export default class Canvas {
       width,
       height,
     };
+
+    if (this.gallery)
+      this.gallery.onResize({
+        sizes: this.sizes,
+      });
   }
 
   update() {
+    if (this.gallery) this.gallery.update();
+
     this.renderer.render(this.scene, this.camera);
   }
 }
