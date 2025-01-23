@@ -2,7 +2,7 @@
 
 Demo for the tutorial on how to create a 3D text animation using Three.js and Shaders and a bit of trigonometry to make it look like a circle.
 
-![Image Title](https://generative-placeholders.glitch.me/image?width=800&height=600")
+![Image Title](./image.png)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=)
 
@@ -10,7 +10,9 @@ Demo for the tutorial on how to create a 3D text animation using Three.js and Sh
 
 ## Installation
 
-Run this demo on a [local server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/set_up_a_local_testing_server).
+- Install with npm install
+- Run demo with npm run dev
+- Build with npm run build
 
 ## Credits
 
