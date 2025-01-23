@@ -20,6 +20,7 @@ export default class Canvas {
     this.createScene();
     this.createCamera();
     this.createRenderer();
+    this.onResize();
     this.createGallery();
   }
 

@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { data } from "../utils/data";
 import { lerp } from "../utils/math";
 import Text from "./text";
+import gsap from "gsap";
+
+const easing = "cubic-bezier(0.6, 0.01, -0.05, 0.9)";
 
 export default class Gallery {
   constructor({ renderer, scene, camera, sizes, gui }) {
@@ -66,6 +69,33 @@ export default class Gallery {
 
   show() {
     this.scene.add(this.group);
+
+    // this.tl = gsap.timeline();
+
+    // this.tl
+    //   .fromTo(
+    //     this.group.position,
+    //     {
+    //       x: -this.sizes.width * 2,
+    //     },
+    //     {
+    //       duration: 0.8,
+    //       ease: easing,
+    //       x: -this.sizes.width / 2,
+    //     }
+    //   )
+    //   .fromTo(
+    //     this.y,
+    //     {
+    //       target: Math.min(-1500, -Math.random() * window.innerHeight * 6),
+    //     },
+    //     {
+    //       target: 0,
+    //       duration: 0.8,
+    //       ease: easing,
+    //     },
+    //     "<"
+    //   );
   }
 
   onTouchDown({ y }) {
@@ -87,12 +117,12 @@ export default class Gallery {
   onResize({ sizes }) {
     this.sizes = sizes;
 
-    this.group.position.x = -this.sizes.width / 2;
+    // this.group.position.x = -this.sizes.width / 2;
 
     this.texts.forEach((text) => text.onResize(sizes));
   }
 
-  update() {
+  update(time) {
     this.y.current = lerp(this.y.current, this.y.target, this.y.lerp);
 
     this.scroll.y = this.y.current;
