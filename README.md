@@ -2,7 +2,7 @@
 
 Demo for the tutorial on how to create a 3D text animation using Three.js and Shaders and a bit of trigonometry to make it look like a circle.
 
-![Image Title](./image.png)
+![Image Title](https://tympanus.net/codrops/wp-content/uploads/2025/01/Featured-1.png)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=)
 
