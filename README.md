@@ -4,19 +4,15 @@ Demo for the tutorial on how to create a 3D text animation using Three.js and Sh
 
 ![Image Title](https://tympanus.net/codrops/wp-content/uploads/2025/01/Featured-1.png)
 
-[Article on Codrops](https://tympanus.net/codrops/?p=)
+[Article on Codrops](https://tympanus.net/codrops/?p=86085)
 
-[Demo](https://tympanus.net/Development/.../)
+[Demo](https://tympanus.net/Tutorials/3DTextCircleScroll/)
 
 ## Installation
 
 - Install with npm install
 - Run demo with npm run dev
 - Build with npm run build
-
-## Credits
-
-- Images generated with [Midjourney](https://midjourney.com)
 
 ## Misc
 
@@ -28,4 +24,4 @@ Follow Codrops: [Bluesky](https://bsky.app/profile/codrops.bsky.social), [Facebo
 
 [MIT](LICENSE)
 
-Made with :blue_heart: by [Codrops](http://www.codrops.com)
+Made with :blue_heart: by [David Faure](http://davidfaure.eu/) + [Codrops](http://www.codrops.com)
